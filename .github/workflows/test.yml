@@ -1,36 +1,37 @@
 name: CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
 permissions:
   contents: read
 
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  FOUNDRY_PROFILE: ci
+
 jobs:
-  test:
+  check:
+    name: Foundry project
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository and submodules
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
           submodules: recursive
-          fetch-depth: 0
-          persist-credentials: true
 
-      - name: Verify submodules (debug)
-        run: |
-          echo "Submodule status:"
-          git submodule status --recursive || true
-          echo "lib/foundry-devops remote:"
-          git -C lib/foundry-devops remote -v || true
-          echo "ls-remote for origin:"
-          git -C lib/foundry-devops ls-remote --heads origin || true
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
 
-      - name: Setup and run tests
-        run: |
-          # 在此添加你的构建/测试命令，例如：
-          forge test || true
+      - name: Show Forge version
+        run: forge --version
+
+      - name: Run Forge fmt
+        run: forge fmt --check
+
+      - name: Run Forge build
+        run: forge build --sizes
+
+      - name: Run Forge tests
+        run: forge test -vvv
