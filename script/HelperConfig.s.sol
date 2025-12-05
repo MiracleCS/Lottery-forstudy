@@ -59,7 +59,7 @@ contract HelperConfig is CodeConstants, Script {
             callbackGasLimit: 500000,
             subscriptionId: 82090430254582110761765918047829711538838676712108158272663461431259106456079,
             link: 0x779877A7B0D9E8603169DdbD7836e478b4624789,
-            account:0xd063E95e3a234E6e42Ca42450892Ca6BCB2471f7
+            account: 0xd063E95e3a234E6e42Ca42450892Ca6BCB2471f7
         });
     }
 
@@ -83,7 +83,7 @@ contract HelperConfig is CodeConstants, Script {
             callbackGasLimit: 500000,
             subscriptionId: 0,
             link: address(linkToken), //Link address is not needed for local testing
-            account:0xd063E95e3a234E6e42Ca42450892Ca6BCB2471f7  
+            account: 0xd063E95e3a234E6e42Ca42450892Ca6BCB2471f7
         });
         return localNetworkConfig;
     }
